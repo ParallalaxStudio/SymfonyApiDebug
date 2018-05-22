@@ -1,0 +1,17 @@
+services:
+
+    parallalax.data_collector:
+        class: Parallalax\ApiDebugBundle\DataCollector\RequestCollector
+        tags:
+            -
+                name:     data_collector
+                template: '@ParallalaxApiDebug/data_collector/template.html.twig'
+                id:       'parallalax.request_collector'
+                priority: 300
+        public: false
+
+    parallalax.restclient:
+        class: Parallalax\ApiDebugBundle\Services\RestClientAdapter
+        public: true
+        autowire: true
+        #shared: false
