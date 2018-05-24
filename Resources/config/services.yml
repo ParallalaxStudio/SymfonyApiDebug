@@ -13,5 +13,7 @@ services:
     parallalax.restclient:
         class: Parallalax\ApiDebugBundle\Services\RestClientAdapter
         public: true
-        autowire: true
-        #shared: false
+        autowire: false
+        arguments:
+            $request: "@request_stack"
+            $env: "%kernel.environment%"
