@@ -5,8 +5,8 @@ namespace Parallalax\ApiDebugBundle\Services;
 use \Symfony\Component\HttpFoundation\RequestStack;
 
 use \GuzzleHttp\ClientInterface;
-use \Psr\Http\Message\RequestInterface;
-
+//use \Psr\Http\Message\RequestInterface;
+use \GuzzleHttp\Message\RequestInterface;
 class RestClientAdapter implements ClientInterface{
 
     protected $env;//to catch the ws requests only in the dev environment
@@ -27,7 +27,8 @@ class RestClientAdapter implements ClientInterface{
 
     public function send(RequestInterface $request, array $options = []) {
 
-        $this->uri = $request->getUri();
+        $this->uri = $request->getUrl();
+
         $this->sentData = $options;
         $executionStartTime = microtime(true);
         $this->response = $this->client->send($request, $options);
@@ -41,7 +42,7 @@ class RestClientAdapter implements ClientInterface{
 
     public function sendAsync(RequestInterface $request, array $options = [])
     {
-        $this->uri = $request->getUri();
+        $this->uri = $request->getUrl();
         $this->sentData = $options;
         $executionStartTime = microtime(true);
         $this->response = $this->client->sendAsync($request, $options);
@@ -109,7 +110,7 @@ class RestClientAdapter implements ClientInterface{
             }
 
             if(array_key_exists('X-Debug-Token', $headers)) {
-                $data = ['token' => $this->response->getHeaderLine('X-Debug-Token'), 'profiler' => $this->response->getHeaderLine('X-Debug-Token-Link')];
+                $data = ['token' => $headers['X-Debug-Token'][0], 'profiler' => $headers['X-Debug-Token-Link'][0]];
             }
 
             $data['method'] = $method;
@@ -122,7 +123,7 @@ class RestClientAdapter implements ClientInterface{
             $dataResponse['sentData'] = $this->sentData;
 
             //if json : decode the response, else get html length
-            if(strpos($this->response->getHeaderLine('content-type'), 'application/json') !== false) {
+            if(strpos($headers['Content-Type'][0], 'application/json') !== false) {
                 $dataResponse['response'] = ['type' => 'json', 'content' => json_decode($this->response->getBody())];
             }
             else {
@@ -134,5 +135,62 @@ class RestClientAdapter implements ClientInterface{
             $this->request->headers->set('X-API-Debug-Data', [$xDebugdata]);
             $this->request->headers->set('X-API-Response', [$xDebugResponse]);
         }
+    }
+
+
+
+
+
+
+    public function createRequest($method, $url = null, array $options = []) {
+        return $this->client->createRequest($method, $url, $options);
+    }
+
+
+
+    public function get($url = null, $options = []) {
+        return $this->client->get($url, $options);
+    }
+
+    public function head($url = null, array $options = []) {
+        return $this->client->head($url, $options);
+    }
+
+    public function delete($url = null, array $options = []) {
+        return $this->client->delete($url, $options);
+    }
+
+    public function put($url = null, array $options = []) {
+        return $this->client->put($url, $options);
+    }
+
+    public function patch($url = null, array $options = []) {
+        return$this->client->patch($url, $options);
+    }
+
+    public function post($url = null, array $options = []) {
+        $response = $this->client->post($url, $options);
+        print_r(json_decode($response->getBody()));
+        return $response;
+    }
+
+    public function options($url = null, array $options = []) {
+        return $this->client->options($url, $options);
+    }
+
+    public function getDefaultOption($keyOrPath = null) {
+        return $this->client->getDefaultOption($keyOrPath);
+    }
+
+    public function setDefaultOption($keyOrPath, $value) {
+        $this->client->options($keyOrPath, $value);
+    }
+
+    public function getBaseUrl() {
+        return $this->client->getBaseUrl();
+    }
+
+    public function getEmitter() {
+        return $this->client->getEmitter();
     }
 }

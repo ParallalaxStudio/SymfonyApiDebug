@@ -10,7 +10,7 @@
         <div class="sf-toolbar-info-piece">
             <b class="sf-toolbar-api-info">{{ collector.apiDebugData|length ~ (collector.apiDebugData|length == 1 ?' API request' : ' API requests') }}</b>
         </div>
-        <div class="sf-toolbar-info-piece">
+        <div class="sf-toolbar-info-piece"">
             <table class="sf-toolbar-ajax-requests sf-toolbar-api-requests">
                 <thead>
                     <tr>
@@ -29,7 +29,9 @@
                         <td class="sf-ajax-request-url" title="{{ data.uri }}">{{ data.uri }}</td>
                         <td class="sf-ajax-request-duration">{{ data.time }}ms</td>
                         <td>
+                            {% if data.profiler is defined %}
                             <a href="{{ data.profiler }}" target="_blank">{{ data.token }}</a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
