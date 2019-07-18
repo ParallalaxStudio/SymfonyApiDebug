@@ -1,7 +1,6 @@
 services:
 
-    parallalax.data_collector:
-        class: Parallalax\ApiDebugBundle\DataCollector\RequestCollector
+    Parallalax\ApiDebugBundle\DataCollector\RequestCollector:
         tags:
             -
                 name:     data_collector
@@ -10,8 +9,7 @@ services:
                 priority: 300
         public: false
 
-    parallalax.restclient:
-        class: Parallalax\ApiDebugBundle\Services\RestClientAdapter
+    Parallalax\ApiDebugBundle\Services\RestClientAdapter:
         public: true
         autowire: false
         arguments:
