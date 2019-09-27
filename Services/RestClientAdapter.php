@@ -101,11 +101,11 @@ class RestClientAdapter implements ClientInterface{
             $xDebugResponse = array();
 
             if($this->request->headers->has('X-API-Debug-Data')) {
-                $xDebugdata = $this->request->headers->get('X-API-Debug-Data');
+                $xDebugdata = json_decode($this->request->headers->get('X-API-Debug-Data'));
             }
 
             if($this->request->headers->has('X-API-Response')) {
-                $xDebugResponse = $this->request->headers->get('X-API-Response');
+                $xDebugResponse = json_decode($this->request->headers->get('X-API-Response'));
             }
 
             if(array_key_exists('X-Debug-Token', $headers)) {
@@ -131,8 +131,9 @@ class RestClientAdapter implements ClientInterface{
 
             $xDebugResponse[] = $dataResponse;
 
-            $this->request->headers->set('X-API-Debug-Data', [$xDebugdata]);
-            $this->request->headers->set('X-API-Response', [$xDebugResponse]);
+            //$this->request->headers->set('X-API-Debug-Data', [$xDebugdata]);
+            $this->request->headers->set('X-API-Debug-Data', json_encode($xDebugdata));
+            $this->request->headers->set('X-API-Response', json_encode($xDebugResponse));
         }
     }
 }

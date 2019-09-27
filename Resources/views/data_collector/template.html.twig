@@ -38,14 +38,15 @@
         </div>
         <script type="text/javascript">
 
-            var XHROpen = XMLHttpRequest.prototype.open;
+            let XHROpen = XMLHttpRequest.prototype.open;
             XMLHttpRequest.prototype.open = function() {
 
                 this.addEventListener('load', function() {
 
-                    allHeaders = this.getAllResponseHeaders();
+                    let allHeaders = this.getAllResponseHeaders();
+
                     if (res = allHeaders.match(/^x-api-debug-data:\s+(.*)$/im)) {
-                        apiDebugData = JSON.parse(res[1]);
+                        let apiDebugData = JSON.parse(res[1]);
 
                         for(i = 0 ; i < apiDebugData.length ; i++) {
                             updateApiProfilerRow(apiDebugData[i])
@@ -73,13 +74,13 @@
                 if(data.status == 200) cellStatus.setAttribute('style', 'background-color:#4F805D');
                 else cellStatus.setAttribute('style', 'background-color:#B0413E');
                 var cellUrl = document.createElement('td');
-                cellUrl.textContent = data.url;
+                cellUrl.textContent = data.uri;
                 var cellTime = document.createElement('td');
                 cellTime.textContent = data.time;
                 var linkProfiler = document.createElement('a');
                 linkProfiler.setAttribute('href', data.profiler);
                 linkProfiler.setAttribute('target', '_blank');
-                linkProfiler.textContent = data.token
+                linkProfiler.textContent = data.token;
                 var cellProfiler = document.createElement('td');
                 cellProfiler.appendChild(linkProfiler);
 

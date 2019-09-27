@@ -14,16 +14,19 @@ class RequestCollector extends DataCollector
         $headers = $request->headers->all();
 
         if(array_key_exists('x-api-debug-data', $headers)) {
+            
             $this->data = array(
-                'api_debug_data' => $request->headers->get('x-api-debug-data')
+                //'api_debug_data' => $request->headers->get('x-api-debug-data')
+                'api_debug_data' => json_decode($request->headers->get('x-api-debug-data'))
             );
 
-            $response->headers->set('x-api-debug-data', json_encode($request->headers->get('x-api-debug-data')));
+            $response->headers->set('x-api-debug-data', $request->headers->get('x-api-debug-data'));
+            //$response->headers->set('x-api-debug-data', $request->headers->get('x-api-debug-data'));
         }
         
         if(array_key_exists('x-api-response', $headers)) {
 
-            $this->data['api_response'] = $request->headers->get('x-api-response');
+            $this->data['api_response'] = json_decode($request->headers->get('x-api-response'));
             $request->headers->remove('x-api-response');
         }
     }
