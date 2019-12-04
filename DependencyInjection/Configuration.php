@@ -17,8 +17,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('parallalax_restclient');
+        $treeBuilder = new TreeBuilder('parallalax_restclient');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
