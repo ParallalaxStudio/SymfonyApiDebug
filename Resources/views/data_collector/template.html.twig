@@ -22,14 +22,14 @@
                     </tr>
                 </thead>
                 <tbody class="sf-toolbar-api-request-list">
-                    {% for data in collector.apiDebugData|reverse %}
+                    {% for data in collector.apiDebugData %}
                     <tr class="sf-ajax-request {{ data.status == 200 ? 'sf-ajax-request-ok' : 'sf-ajax-request-error' }}">
                         <td>{{ data.method }}</td>
                         <td style="background-color:{{ data.status == 200 ? '#4F805D' : '#B0413E' }}">{{ data.status }}</td>
                         <td class="sf-ajax-request-url" title="{{ data.uri }}">{{ data.uri }}</td>
                         <td class="sf-ajax-request-duration">{{ data.time }}ms</td>
                         <td>
-                            {% if profiler in data|keys %}
+                            {% if "profiler" in data|keys %}
                                 <a href="{{ data.profiler }}" target="_blank">{{ data.token }}</a>
                             {% endif %}
                         </td>
@@ -148,7 +148,7 @@
                 </tr>
             </thead>
             <tbody>
-        {% for key, data in collector.apiDebugData|reverse %}
+        {% for key, data in collector.apiDebugData %}
             <tr>
                 <td>
                     <span class="colored text-bold">{{ data.method }}</span>

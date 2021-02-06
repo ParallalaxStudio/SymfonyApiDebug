@@ -123,10 +123,15 @@ class RestClientAdapter implements ClientInterface{
 
             //if json : decode the response, else get html length
             if(strpos($this->response->getHeaderLine('content-type'), 'application/json') !== false) {
-                $dataResponse['response'] = ['type' => 'json', 'content' => json_decode($this->response->getBody())];
+                $resultData = json_decode($this->response->getBody());
+                $resultToShow = array();
+                foreach($resultData as $key => $r) {
+                    $resultToShow[$key] = (is_string($r) && strlen($r) > 300) ? (strlen($r)*3/4) .'o' : $r;
+                }
+                $dataResponse['response'] = ['type' => 'json', 'content' => $resultToShow];
             }
             else {
-                $dataResponse['response'] = ['type' => 'html', 'content' =>  strlen($this->response->getBody()) .'o'];
+                $dataResponse['response'] = ['type' => 'html', 'content' =>  strlen($this->response->getBody())*3/4 .'o'];
             }
 
             $xDebugResponse[] = $dataResponse;
