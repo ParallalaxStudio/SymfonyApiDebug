@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RequestCollector extends DataCollector
 {
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $headers = $request->headers->all();
 
