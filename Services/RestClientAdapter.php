@@ -19,7 +19,7 @@ class RestClientAdapter implements ClientInterface{
     protected $response;
 
     public function __construct(RequestStack $request, $env) {
-        $this->request = $request->getCurrentRequest();
+        $this->request = ($request->getCurrentRequest() === null) ? new Request() : $request->getCurrentRequest();
         $this->client = new \GuzzleHttp\Client();
         $this->env = $env;
     }
