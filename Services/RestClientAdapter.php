@@ -2,6 +2,7 @@
 
 namespace Parallalax\ApiDebugBundle\Services;
 
+use Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\RequestStack;
 
 use \GuzzleHttp\ClientInterface;
